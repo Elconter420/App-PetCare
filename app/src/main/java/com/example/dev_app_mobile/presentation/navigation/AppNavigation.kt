@@ -7,33 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun AppNavigation() {
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = "login"
-    ) {
-        composable("login") {
-            LoginScreen(
-                onLogin = { navController.navigate("home") }
-            )
-        }
-        composable("home") {
-            HomeScreen(
-                onLogout = { navController.navigate("login") }
-            )
-        }
-    }
-}
-
-@Composable
-fun LoginScreen(onLogin: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,48 +24,21 @@ fun LoginScreen(onLogin: () -> Unit) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text("Tu app de cuidado de mascotas")
+        Text("App funcionando correctamente!")
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = onLogin,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        ) {
-            Text("Iniciar Sesión")
-        }
-    }
-}
-
-@Composable
-fun HomeScreen(onLogout: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "🏠 Inicio",
-            style = androidx.compose.material3.MaterialTheme.typography.headlineMedium
-        )
+        Text("Estructura MVVM lista")
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text("Bienvenido a PetCare")
-
-        Spacer(modifier = Modifier.height(48.dp))
-
         Button(
-            onClick = onLogout,
+            onClick = { /* Acción simple */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
         ) {
-            Text("Cerrar Sesión")
+            Text("Botón de prueba")
         }
     }
 }
