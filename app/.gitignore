@@ -1,1 +1,47 @@
+# Build
 /build
+/app/build
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea/caches/
+.idea/libraries/
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/markdown.xml
+.idea/material_theme_project_new.xml
+.idea/modules.xml
+.idea/inspectionProfiles/
+.idea/gradle.xml
+
+# Gradle
+.gradle/
+/captures/
+/.gradle
+
+# Local configuration
+local.properties
+*.orig
+*.log
+
+# Keystores
+*.jks
+*.keystore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Android Studio
+*.hprof
+*.log
+*.log.*
+*.log.?
