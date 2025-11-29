@@ -29,7 +29,7 @@ fun OwnerMenuScreen(
             .background(Color(0xFFEFEFEF))
     ) {
 
-        // 🔹 Encabezado
+        //Encabezado
         Row(
             modifier = Modifier
                 .fillMaxWidth()
