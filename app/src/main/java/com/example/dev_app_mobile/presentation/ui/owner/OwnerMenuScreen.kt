@@ -64,7 +64,7 @@ fun OwnerMenuScreen(
             )
         }
 
-        // 🔹 Opciones principales
+        // Opciones principales
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -116,6 +116,6 @@ fun MenuItem(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun OwnerMenuScreen() {
+fun OwnerMenuScreenPreview() {
     OwnerMenuScreen()
 }

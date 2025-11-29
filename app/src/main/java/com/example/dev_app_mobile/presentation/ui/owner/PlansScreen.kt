@@ -74,7 +74,7 @@ fun PlansScreen(
             )
         }
 
-        // PLAN FREE
+        // card free
         PlanCard(
             title = "Free",
             price = "Precio: Gratis 🎁",
@@ -92,7 +92,7 @@ fun PlansScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // PLAN PREMIUM
+        // Card premium
         PlanCard(
             title = "Premium",
             price = "Precio: \$XX.XXX/mes 👑",
