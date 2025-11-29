@@ -24,9 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dev_app_mobile.R
+import com.example.dev_app_mobile.presentation.components.common.AppointmentSuccessDialog
+import com.example.dev_app_mobile.presentation.components.common.AppointmentData
 import com.example.dev_app_mobile.presentation.ui.theme.PetCarePrimary
 import com.example.dev_app_mobile.presentation.ui.theme.PetCareWhite
-import androidx.compose.material.icons.filled.ArrowBack
 
 @Composable
 fun ScheduleAppointmentScreen(
@@ -36,8 +37,30 @@ fun ScheduleAppointmentScreen(
     var selectedPet by remember { mutableStateOf("Lyra") }
     var motivo by remember { mutableStateOf("") }
     var selectedVet by remember { mutableStateOf("") }
-    var selectedDate by remember { mutableStateOf("08/17/2025") }
+    var selectedDate by remember { mutableStateOf("17/08/2025") }
     var selectedTime by remember { mutableStateOf("20:00 PM") }
+
+    // Estado para controlar la visibilidad del popup
+    var showSuccessDialog by remember { mutableStateOf(false) }
+
+    // Si el diálogo está abierto, mostrarlo
+    if (showSuccessDialog) {
+        val appointmentData = AppointmentData(
+            petName = selectedPet,
+            veterinarian = if (selectedVet.isNotEmpty()) selectedVet else "Johan Fernando Castillo",
+            date = selectedDate,
+            time = selectedTime
+        )
+
+        AppointmentSuccessDialog(
+            appointmentData = appointmentData,
+            onDismiss = { showSuccessDialog = false },
+            onAccept = {
+                showSuccessDialog = false
+                onConfirmClick() // Llamar al callback original si es necesario
+            }
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -71,7 +94,6 @@ fun ScheduleAppointmentScreen(
             )
         }
 
-
         Text(
             text = "¿Para quién es la cita?",
             style = MaterialTheme.typography.bodyMedium,
@@ -82,20 +104,19 @@ fun ScheduleAppointmentScreen(
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             PetOptionItem(
                 name = "Lyra",
-                avatarRes = R.drawable.lyra, // cámbialo si usas otro recurso
+                avatarRes = R.drawable.lyra,
                 isSelected = selectedPet == "Lyra",
                 onClick = { selectedPet = "Lyra" }
             )
             PetOptionItem(
                 name = "Ryuk",
-                avatarRes = R.drawable.ryuk, // cámbialo si usas otro recurso
+                avatarRes = R.drawable.ryuk,
                 isSelected = selectedPet == "Ryuk",
                 onClick = { selectedPet = "Ryuk" }
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
 
         Text(
             text = "Motivo de la consulta:",
@@ -119,7 +140,6 @@ fun ScheduleAppointmentScreen(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
 
         Text(
             text = "Seleccione el veterinario:",
@@ -210,9 +230,15 @@ fun ScheduleAppointmentScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Botón de solicitar cita
+        // Botón de solicitar cita - Ahora muestra el popup
         Button(
-            onClick = onConfirmClick,
+            onClick = {
+                // Validaciones básicas antes de mostrar el popup
+                if (motivo.isNotEmpty() && selectedVet.isNotEmpty()) {
+                    showSuccessDialog = true
+                }
+                // También puedes mostrar un mensaje de error si los campos están vacíos
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp),
