@@ -1,5 +1,5 @@
 package com.example.dev_app_mobile.presentation.components.dialogs
-
+// Conter .> esta es las que son 3, son las respuestas a las preguntas de la pantalla de ayuda
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
