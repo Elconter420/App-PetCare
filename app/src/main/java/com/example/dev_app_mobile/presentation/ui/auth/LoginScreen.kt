@@ -23,15 +23,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.example.dev_app_mobile.R
+import com.example.dev_app_mobile.domain.model.UserRole
 import com.example.dev_app_mobile.presentation.ui.theme.PetCarePrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    onBackClick: () -> Unit = {},
-    onLoginClick: () -> Unit = {},
-    onForgotPasswordClick: () -> Unit = {},
-    onRegisterClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},  // AÑADIDO
+    onLoginClick: () -> Unit = {}, // CAMBIADO de onLoginSuccess
+    onForgotPasswordClick: () -> Unit = {}, // CAMBIADO de onForgotPassword
+    onRegisterClick: () -> Unit = {},
+    onVetRegisterClick: () -> Unit = {} // OPCIONAL si lo necesitas
 ) {
     val scrollState = rememberScrollState()
 
@@ -43,7 +45,7 @@ fun LoginScreen(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) {
+                    IconButton(onClick = onBackClick) { // AHORA SÍ EXISTE
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Volver"
@@ -63,7 +65,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            
+
             Text(
                 text = "Inicia sesión",
                 fontSize = 26.sp,
@@ -97,7 +99,6 @@ fun LoginScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-
                     Text(
                         text = "Correo electrónico:",
                         fontSize = 14.sp,
@@ -117,9 +118,9 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-
+                    // CORRECCIÓN: Dice "Confirmar contraseña" pero debe ser "Contraseña"
                     Text(
-                        text = "Confirmar contraseña:",
+                        text = "Contraseña:", // CAMBIADO
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier
@@ -138,7 +139,7 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Button(
-                        onClick = onLoginClick,
+                        onClick = onLoginClick, // AHORA SÍ EXISTE
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
@@ -159,7 +160,7 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     TextButton(
-                        onClick = onForgotPasswordClick,
+                        onClick = onForgotPasswordClick, // AHORA SÍ EXISTE
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Text(
@@ -170,7 +171,7 @@ fun LoginScreen(
                     }
 
                     Spacer(modifier = Modifier.height(4.dp))
-                        TextButton(
+                    TextButton(
                         onClick = onRegisterClick,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
@@ -193,7 +194,6 @@ fun LoginScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-
 
             Image(
                 painter = painterResource(id = R.drawable.perro_3),
