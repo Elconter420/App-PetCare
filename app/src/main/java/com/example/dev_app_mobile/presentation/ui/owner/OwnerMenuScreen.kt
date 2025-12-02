@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.dev_app_mobile.presentation.ui.theme.PetCarePrimary
-import com.example.dev_app_mobile.presentation.ui.theme.PetCareSecondary
 import com.example.dev_app_mobile.presentation.ui.theme.PetCareDark
 
 @Composable
@@ -26,23 +25,21 @@ fun OwnerMenuScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFEFEFEF))
+            .background(Color(0xFFE0E0E0))
     ) {
 
-        //Encabezado
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp)
-                .background(PetCarePrimary)
-                .padding(horizontal = 20.dp),
+                .height(65.dp)
+                .background(PetCarePrimary),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "menu",
                 tint = PetCareDark,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.padding(start = 20.dp).size(30.dp)
             )
 
             Spacer(modifier = Modifier.width(15.dp))
@@ -50,7 +47,7 @@ fun OwnerMenuScreen(
             Text(
                 text = "PETCARE",
                 color = PetCareDark,
-                fontSize = 22.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
 
@@ -60,35 +57,37 @@ fun OwnerMenuScreen(
                 imageVector = Icons.Default.Person,
                 contentDescription = "Perfil",
                 tint = PetCareDark,
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.padding(end = 20.dp).size(30.dp)
             )
         }
 
-        // Opciones principales
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(25.dp)
+                .fillMaxHeight()
+                .width(240.dp)  // ✔ coincide con el ancho aproximado de la imagen
+                .background(Color(0xFFE7E7E7)) // ✔ gris del panel
+                .padding(horizontal = 20.dp, vertical = 18.dp)
         ) {
+
             MenuItem("Mis mascotas") { onNavigate("pets") }
             MenuItem("Sobre nosotros") { onNavigate("about") }
             MenuItem("Solicitar cita con veterinario") { onNavigate("appointment") }
             MenuItem("Guardería") { onNavigate("daycare") }
             MenuItem("Transporte") { onNavigate("transport") }
 
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
             MenuItem("Notificaciones") { onNavigate("notifications") }
             MenuItem("Idioma") { onNavigate("language") }
             MenuItem("Cambiar contraseña") { onNavigate("resetPassword") }
 
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(35.dp))
 
             Text(
                 text = "Cerrar sesión",
-                color = Color.Red,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
+                color = Color(0xFFCC3939),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
                     .clickable { onNavigate("logout") }
@@ -97,6 +96,7 @@ fun OwnerMenuScreen(
     }
 }
 
+
 @Composable
 fun MenuItem(
     text: String,
@@ -104,7 +104,7 @@ fun MenuItem(
 ) {
     Text(
         text = text,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.Medium,
         color = Color.Black,
         modifier = Modifier

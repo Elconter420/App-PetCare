@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,22 +40,19 @@ fun PetProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(top = 12.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
-        Box(
+
+        IconButton(
+            onClick = onBackClick,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
+                .align(Alignment.Start)
+                .padding(bottom = 4.dp)
         ) {
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier.align(Alignment.CenterStart)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Volver"
-                )
-            }
+            Icon(
+                imageVector = Icons.Filled.ArrowBack,
+                contentDescription = "Volver"
+            )
         }
 
         Column(
@@ -63,119 +61,98 @@ fun PetProfileScreen(
         ) {
 
             Box(
-                modifier = Modifier.size(110.dp),
+                modifier = Modifier.size(125.dp),
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.lyra), // tu foto de Lyra
-                    contentDescription = "Foto de la mascota",
+                    painter = painterResource(id = R.drawable.lyra),
+                    contentDescription = "Foto mascota",
                     modifier = Modifier
-                        .size(110.dp)
+                        .size(125.dp)
                         .clip(CircleShape)
                 )
 
                 Surface(
                     shape = CircleShape,
+                    shadowElevation = 4.dp,
                     color = PetCareWhite,
-                    tonalElevation = 2.dp,
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(32.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Filled.CameraAlt,
                         contentDescription = "Cambiar foto",
-                        modifier = Modifier.padding(5.dp)
+                        modifier = Modifier.padding(6.dp)
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
+
             Text(
                 text = "Lyra",
-                fontSize = 22.sp,
+                fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
                 color = PetCareDark
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(3.dp))
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(id = R.drawable.perro_3), // iconito / sticker
+                    painter = painterResource(id = R.drawable.perro_3),
                     contentDescription = "Icono perro",
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(22.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = "Perro/a",
-                    fontSize = 13.sp,
-                    color = PetCareDark
+                    fontSize = 14.sp,
+                    color = Color.Black
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
+        Spacer(modifier = Modifier.height(20.dp))
 
         PetSectionHeader("Datos")
 
         Surface(
-            shape = RoundedCornerShape(8.dp),
-            tonalElevation = 1.dp,
+            shape = RoundedCornerShape(10.dp),
+            shadowElevation = 1.dp,
+            color = Color.White,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Column(
-                modifier = Modifier.padding(12.dp)
-            ) {
-                Text(
-                    text = "Raza:",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp
-                )
-                Text(
-                    text = "Criolla",
-                    fontSize = 13.sp,
-                    modifier = Modifier.padding(bottom = 10.dp)
-                )
+            Column(modifier = Modifier.padding(14.dp)) {
 
-                Text(
-                    text = "Edad:",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 13.sp
-                )
-                Text(
-                    text = "10 años",
-                    fontSize = 13.sp
-                )
+                Text("Raza:", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                Text("Criolla", fontSize = 14.sp, modifier = Modifier.padding(bottom = 12.dp))
+
+                Text("Edad:", fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                Text("10 años", fontSize = 14.sp)
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
+        Spacer(modifier = Modifier.height(18.dp))
 
         PetSectionHeader("Historial")
 
-        // Historial médico y de servicios
         PetOptionCard(
             text = "Historial medico y de servicios",
             enabled = true,
             onClick = onOpenHistoryClick
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
-        // Agenda (esta deshabilitada visualmente)
         PetOptionCard(
             text = "Agenda (Próximas citas)",
             enabled = false,
             onClick = onOpenAgendaClick
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
+        Spacer(modifier = Modifier.height(18.dp))
 
         PetSectionHeader("Gestión")
 
@@ -185,40 +162,37 @@ fun PetProfileScreen(
             onClick = onEditPetClick
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
+        Spacer(modifier = Modifier.height(10.dp))
 
         Surface(
-            shape = RoundedCornerShape(8.dp),
-            tonalElevation = 1.dp,
+            shape = RoundedCornerShape(10.dp),
+            shadowElevation = 1.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(onClick = onDeletePetClick)
+                .clickable(onClick = onDeletePetClick),
+            color = Color.White
         ) {
             Text(
                 text = "Eliminar mascota",
-                color = MaterialTheme.colorScheme.error,
-                fontSize = 13.sp,
-                modifier = Modifier
-                    .padding(horizontal = 12.dp, vertical = 10.dp),
-                textAlign = TextAlign.Start
+                color = Color(0xFFD32F2F),
+                fontSize = 14.sp,
+                modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp)
             )
         }
-
-        Spacer(modifier = Modifier.height(24.dp))
     }
 }
+
 
 @Composable
 private fun PetSectionHeader(title: String) {
     Text(
         text = title,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 13.sp,
+        fontSize = 14.sp,
         modifier = Modifier
             .fillMaxWidth()
-            .background(PetCarePrimary.copy(alpha = 0.4f))
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .background(Color(0xFFC7E4DF)) // ✔ exactamente el verde de la imagen
+            .padding(horizontal = 10.dp, vertical = 6.dp)
     )
 }
 
@@ -228,30 +202,24 @@ private fun PetOptionCard(
     enabled: Boolean,
     onClick: () -> Unit
 ) {
-    val bgColor =
-        if (enabled) MaterialTheme.colorScheme.surface
-        else MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)
-
-    val textColor =
-        if (enabled) MaterialTheme.colorScheme.onSurface
-        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+    val alpha = if (enabled) 1f else 0.5f
 
     Surface(
-        shape = RoundedCornerShape(8.dp),
-        tonalElevation = 1.dp,
+        shape = RoundedCornerShape(10.dp),
+        shadowElevation = 1.dp,
+        color = Color.White,
         modifier = Modifier
             .fillMaxWidth()
-            .let {
-                if (enabled) it.clickable(onClick = onClick) else it
-            }
+            .then(
+                if (enabled) Modifier.clickable(onClick = onClick)
+                else Modifier
+            )
     ) {
         Text(
             text = text,
-            color = textColor,
-            fontSize = 13.sp,
-            modifier = Modifier
-                .background(bgColor)
-                .padding(horizontal = 12.dp, vertical = 10.dp)
+            color = Color.Black.copy(alpha = alpha),
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp)
         )
     }
 }

@@ -1,18 +1,25 @@
 package com.example.dev_app_mobile.presentation.ui.owner
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.dev_app_mobile.R
 import com.example.dev_app_mobile.presentation.components.common.PlanCard
 import com.example.dev_app_mobile.presentation.ui.theme.PetCareDark
 import com.example.dev_app_mobile.presentation.ui.theme.PetCarePrimary
@@ -30,7 +37,6 @@ fun PlansScreen(
             .padding(16.dp)
     ) {
 
-        // Header: flecha + título centrado
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -53,16 +59,24 @@ fun PlansScreen(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.Center)
             )
+
+            Image(
+                painter = painterResource(id = R.drawable.perro_plan),
+                contentDescription = "Perrito feliz",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(250.dp)
+                    .align(Alignment.TopEnd)
+                    .offset(x = 20.dp, y = 140.dp)
+            )
         }
 
-        // Óvalo verde con el texto
-        Surface(
-            shape = MaterialTheme.shapes.extraLarge,
-            color = PetCareDark,
+        Box(
             modifier = Modifier
-                .align(Alignment.Start)
+                .offset(x = (-20).dp)
                 .width(230.dp)
-                .padding(bottom = 16.dp)
+                .clip(RoundedCornerShape(100.dp))
+                .background(PetCareDark)
         ) {
             Text(
                 text = "PetCare se adapta a tus necesidades,\n" +
@@ -74,13 +88,14 @@ fun PlansScreen(
             )
         }
 
-        // card free
+        Spacer(modifier = Modifier.height(20.dp))
+
         PlanCard(
             title = "Free",
             price = "Precio: Gratis 🎁",
             features = listOf(
-                "1 mascota por usuario.",
-                "2 servicios por tipo al mes.",
+                "1 mascota por usuario 🐾.",
+                "2 servicios por tipo al mes (ej: 2 peluquerías, 2 guarderías, etc.).",
                 "Acceso básico a historial médico.",
                 "Soporte general."
             ),
@@ -90,17 +105,16 @@ fun PlansScreen(
             onClick = onSelectFree
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
-        // Card premium
         PlanCard(
             title = "Premium",
             price = "Precio: \$XX.XXX/mes 👑",
             features = listOf(
-                "Mascotas ilimitadas.",
+                "Mascotas ilimitadas 🐶🐱🐭.",
                 "Servicios ilimitados por mes.",
                 "Acceso completo al historial médico.",
-                "Recordatorios automáticos.",
+                "Recordatorios automáticos de citas y vacunas.",
                 "Soporte prioritario."
             ),
             buttonText = "Hazte PREMIUM",
