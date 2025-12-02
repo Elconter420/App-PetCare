@@ -10,13 +10,21 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.compose.rememberNavController
+import com.example.dev_app_mobile.presentation.ui.theme.DevappmobileTheme
 
 
 @Composable
@@ -171,6 +179,47 @@ private fun ReceiptSectionCard(
                 color = Color.DarkGray,
                 lineHeight = 18.sp
             )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewPaymentReceiptDialog() {
+    DevappmobileTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.LightGray)
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            // Para el preview, mostramos el diálogo directamente
+            var isVisible by remember { mutableStateOf(true) }
+
+            if (isVisible) {
+                PaymentReceiptDialog(
+                    isVisible = isVisible,
+                    onDownloadPdf = {
+                        // Simular descarga de PDF
+                        println("Descargando PDF...")
+                    },
+                    onClose = {
+                        isVisible = false
+                        println("Diálogo cerrado")
+                    }
+                )
+            } else {
+                // Mostrar un botón para abrir el diálogo en el preview
+                Button(
+                    onClick = { isVisible = true },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF4579B5)
+                    )
+                ) {
+                    Text("Mostrar recibo de pago")
+                }
+            }
         }
     }
 }

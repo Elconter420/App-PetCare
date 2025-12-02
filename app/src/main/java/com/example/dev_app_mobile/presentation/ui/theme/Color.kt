@@ -9,6 +9,9 @@ val PetCareDark = Color(0xFF19615E)
 val PetCareBlack = Color(0xFF000000)
 val PetCareWhite = Color(0xFFFFFFFF)
 val PetCareGray = Color(0xFF6A9492)
+val PetCareGrayLight = Color(0xFFE0E0E0)
+val PetCareBlue = Color(0xFF5C84C1)
+val PetCareBlueLight = Color(0xFFBDD7FF)
 
 // Paleta extendida
 val PrimaryLight = Color(0xFFA2E0DD)
