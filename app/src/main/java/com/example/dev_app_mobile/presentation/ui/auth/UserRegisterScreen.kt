@@ -55,7 +55,6 @@ fun UserRegisterScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Título
         Text(
             text = "¡Únete a PetCare!",
             fontSize = 26.sp,
@@ -64,7 +63,7 @@ fun UserRegisterScreen(
             textAlign = TextAlign.Center
         )
 
-        // Subtítulo
+
         Text(
             text = "Regístrate y disfruta de servicios\n" +
                     "diseñados para tu mascota.",
@@ -110,7 +109,6 @@ fun UserRegisterScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Texto de link a registro de vet
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -129,7 +127,7 @@ fun UserRegisterScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Checkbox de términos
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
@@ -145,7 +143,6 @@ fun UserRegisterScreen(
             Column(
                 modifier = Modifier
                     .clickable {
-                        // Abrir pantalla de términos al tocar el texto
                         onTermsClick()
                     }
             ) {
@@ -162,7 +159,6 @@ fun UserRegisterScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Botón Registrarme
         Button(
             onClick = onRegisterClick,
             enabled = termsChecked,

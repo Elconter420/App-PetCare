@@ -2,6 +2,7 @@ package com.example.dev_app_mobile.presentation.ui.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,7 +70,7 @@ fun PetRegisterScreen(
             horizontalAlignment = Alignment.Start
         ) {
 
-            // Título
+
             Text(
                 text = "Agregar mascota",
                 fontSize = 24.sp,
@@ -83,7 +85,7 @@ fun PetRegisterScreen(
                     .padding(top = 4.dp, bottom = 16.dp)
             )
 
-            // Foto + iconoo de  camarita
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(bottom = 16.dp)
@@ -93,18 +95,21 @@ fun PetRegisterScreen(
                         .size(96.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Círculo de foto (por ahora placeholder, luego será la imagen elegida)
                     Box(
                         modifier = Modifier
                             .matchParentSize()
                             .clip(CircleShape)
-                            .background(Color(0xFFE0E0E0)),
-                        contentAlignment = Alignment.Center
+                            .border(2.dp, Color.Gray, CircleShape)
                     ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.perro_3),
+                            contentDescription = "Foto de perfil",
+                            modifier = Modifier.fillMaxSize().clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
 
                     }
 
-                    // Botón de cámara encima
                     IconButton(
                         onClick = { /* TODO: abrir galería */ },
                         modifier = Modifier
@@ -127,7 +132,6 @@ fun PetRegisterScreen(
                 )
             }
 
-            // Campos del formulario
             LabeledTextFieldPet(
                 label = "Nombre de la mascota:*",
                 value = petName,
@@ -140,7 +144,6 @@ fun PetRegisterScreen(
                 onValueChange = { age = it }
             )
 
-            // Especie (dropdown)
             Text(
                 text = "Especie:*",
                 fontSize = 14.sp,
@@ -198,7 +201,7 @@ fun PetRegisterScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Botón guarda
+
             Button(
                 onClick = onSaveClick,
                 modifier = Modifier

@@ -11,9 +11,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -21,12 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,7 +40,6 @@ fun VeterinarianRegisterScreen(
     onTermsClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
-    // ------- Estados UI (solo visual) -------
     var roleExpanded by remember { mutableStateOf(false) }
     val roles = listOf("Veterinario", "Cuidador", "Transportador", "Estilista")
     var selectedRole by remember { mutableStateOf("") }
@@ -76,164 +70,136 @@ fun VeterinarianRegisterScreen(
             )
         }
     ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .padding(horizontal = 24.dp)
                 .verticalScroll(scrollState),
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "¡Únete a PetCare!",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(top = 8.dp)
-            )
+            Spacer(modifier = Modifier.height(6.dp))
 
-            Text(
-                text = "Haz crecer tu negocio ofreciendo\n" +
-                        "tus servicios a muchas familias.",
-                fontSize = 14.sp,
-                modifier = Modifier.padding(top = 4.dp, bottom = 16.dp)
-            )
-
-            // ---- Rol (dropdown) ----
-            Text(
-                text = "Rol",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Medium
-            )
-
-            ExposedDropdownMenuBox(
-                expanded = roleExpanded,
-                onExpandedChange = { roleExpanded = !roleExpanded },
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp, bottom = 12.dp)
+                    .width(300.dp)   // Igual al ancho visual del ejemplo
+                    .padding(horizontal = 12.dp),
+                horizontalAlignment = Alignment.Start
             ) {
-                OutlinedTextField(
-                    value = selectedRole,
-                    onValueChange = { },
-                    readOnly = true,
-                    placeholder = { Text("Selecciona tu rol") },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                            expanded = roleExpanded
-                        )
-                    },
-                    modifier = Modifier
-                        .menuAnchor()
-                        .fillMaxWidth()
-                        .height(48.dp)
+
+                Text(
+                    text = "¡Únete a PetCare!",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 8.dp)
                 )
 
-                ExposedDropdownMenu(
+                Text(
+                    text = "Haz crecer tu negocio ofreciendo\ntus servicios a muchas familias.",
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 16.dp)
+                )
+
+                Text(
+                    text = "Rol",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
+
+                ExposedDropdownMenuBox(
                     expanded = roleExpanded,
-                    onDismissRequest = { roleExpanded = false }
+                    onExpandedChange = { roleExpanded = !roleExpanded },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp, bottom = 12.dp)
                 ) {
-                    roles.forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                selectedRole = option
-                                roleExpanded = false
-                            }
+                    OutlinedTextField(
+                        value = selectedRole,
+                        onValueChange = {},
+                        readOnly = true,
+                        placeholder = { Text("Selecciona tu rol") },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = roleExpanded)
+                        },
+                        modifier = Modifier
+                            .menuAnchor()
+                            .fillMaxWidth()
+                            .height(48.dp),
+                        singleLine = true
+                    )
+
+                    ExposedDropdownMenu(
+                        expanded = roleExpanded,
+                        onDismissRequest = { roleExpanded = false }
+                    ) {
+                        roles.forEach { option ->
+                            DropdownMenuItem(
+                                text = { Text(option) },
+                                onClick = {
+                                    selectedRole = option
+                                    roleExpanded = false
+                                }
+                            )
+                        }
+                    }
+                }
+
+                LabeledTextField("Nombre:", name, { name = it })
+                LabeledTextField("Correo:", email, { email = it })
+                LabeledTextField("Teléfono:", phone, { phone = it })
+                LabeledTextField("Contraseña:", password, { password = it }, true)
+                LabeledTextField("Confirmar contraseña:", confirmPassword, { confirmPassword = it }, true)
+                LabeledTextField("N° Tarjeta profesional:", proCard, { proCard = it })
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Checkbox(
+                        checked = termsChecked,
+                        onCheckedChange = { termsChecked = it }
+                    )
+
+                    Column(
+                        modifier = Modifier.clickable { onTermsClick() }
+                    ) {
+                        Text(
+                            text = "He leído y acepto los términos y condiciones",
+                            fontSize = 11.sp
+                        )
+                        Text(
+                            text = "de PetCare",
+                            fontSize = 11.sp
                         )
                     }
                 }
-            }
 
-            // ---- Campos de texto ----
-            LabeledTextField(
-                label = "Nombre:",
-                value = name,
-                onValueChange = { name = it }
-            )
-            LabeledTextField(
-                label = "Correo:",
-                value = email,
-                onValueChange = { email = it }
-            )
-            LabeledTextField(
-                label = "Teléfono:",
-                value = phone,
-                onValueChange = { phone = it }
-            )
-            LabeledTextField(
-                label = "Contraseña:",
-                value = password,
-                onValueChange = { password = it },
-                isPassword = true
-            )
-            LabeledTextField(
-                label = "Confirmar contraseña:",
-                value = confirmPassword,
-                onValueChange = { confirmPassword = it },
-                isPassword = true
-            )
-            LabeledTextField(
-                label = "N° Tarjeta profesional:",
-                value = proCard,
-                onValueChange = { proCard = it }
-            )
+                Spacer(modifier = Modifier.height(20.dp))
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // ---- Checkbox términos ----
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Checkbox(
-                    checked = termsChecked,
-                    onCheckedChange = { termsChecked = it }
-                )
-
-                Column(
-                    modifier = Modifier.clickable { onTermsClick() }
+                Button(
+                    onClick = onRegisterClick,
+                    enabled = termsChecked,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (termsChecked) PetCarePrimary else Color(0xFFB0BEC5),
+                        contentColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(22.dp)
                 ) {
                     Text(
-                        text = "He leído y acepto los términos y condiciones",
-                        fontSize = 12.sp
-                    )
-                    Text(
-                        text = "de PetCare",
-                        fontSize = 12.sp
+                        text = "Registrarme",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
                     )
                 }
+
+                Spacer(modifier = Modifier.height(24.dp))
             }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // ---- Botón Registrarme ----
-            Button(
-                onClick = onRegisterClick,
-                enabled = termsChecked,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (termsChecked) PetCarePrimary else Color(0xFFB0BEC5),
-                    contentColor = Color.Black,
-                    disabledContainerColor = Color(0xFFCFD8DC),
-                    disabledContentColor = Color.DarkGray
-                ),
-                shape = RoundedCornerShape(24.dp),
-                elevation = ButtonDefaults.buttonElevation(
-                    defaultElevation = if (termsChecked) 6.dp else 0.dp
-                )
-            ) {
-                Text(
-                    text = "Registrarme",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
@@ -250,6 +216,7 @@ private fun LabeledTextField(
         fontSize = 14.sp,
         fontWeight = FontWeight.Medium
     )
+
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,

@@ -32,7 +32,6 @@ fun WelcomeScreen(
         verticalArrangement = Arrangement.Center
     ) {
 
-        //Logo
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "PetCare Logo",
@@ -41,7 +40,6 @@ fun WelcomeScreen(
                 .padding(bottom = 12.dp)
         )
 
-        //Titulo
         Text(
             text = "Donde las huellitas\nimportan, entra y\ndescubre PetCare",
             textAlign = TextAlign.Center,
@@ -50,7 +48,6 @@ fun WelcomeScreen(
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
-        // Botón Iniciar Sesión
         ShadowButton(
             text = "Iniciar sesión",
             onClick = onLoginClick
@@ -58,7 +55,6 @@ fun WelcomeScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Botón Registrarme
         ShadowButton(
             text = "Registrarme",
             onClick = onRegisterClick

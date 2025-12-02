@@ -32,7 +32,6 @@ fun ResetPasswordScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // Imagen grande de fondo en la parte inferior
         Image(
             painter = painterResource(id = R.drawable.contrasena),
             contentDescription = "Perrito contraseña",
@@ -40,7 +39,7 @@ fun ResetPasswordScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
-                .height(100.dp)           // ajusta el alto si quieres más/menos perrito
+                .height(880.dp)
         )
 
         Column(
@@ -50,7 +49,6 @@ fun ResetPasswordScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // Flecha atrás
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -67,7 +65,7 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Título
+
             Text(
                 text = "¿Olvidaste tu\ncontraseña?",
                 fontSize = 24.sp,
@@ -78,7 +76,7 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Subtítulo
+
             Text(
                 text = "Ingresa tu correo electrónico y te " +
                         "enviaremos un enlace para restablecer tu contraseña.",
@@ -91,7 +89,6 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Label correo
             Text(
                 text = "Correo electrónico:",
                 fontSize = 14.sp,
@@ -113,7 +110,7 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Botón
+
             Button(
                 onClick = onSendClick,
                 modifier = Modifier
@@ -135,7 +132,7 @@ fun ResetPasswordScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Texto
+
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally

@@ -61,9 +61,9 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
-            // Título
+            
             Text(
                 text = "Inicia sesión",
                 fontSize = 26.sp,
@@ -72,7 +72,6 @@ fun LoginScreen(
                 modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
             )
 
-            // Logo
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Logo PetCare",
@@ -82,7 +81,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Card blanca del formulario
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -99,7 +97,7 @@ fun LoginScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    // Correo
+
                     Text(
                         text = "Correo electrónico:",
                         fontSize = 14.sp,
@@ -119,7 +117,7 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Contraseña
+
                     Text(
                         text = "Confirmar contraseña:",
                         fontSize = 14.sp,
@@ -139,7 +137,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    // Botón incio sesion
                     Button(
                         onClick = onLoginClick,
                         modifier = Modifier
@@ -161,7 +158,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // olvido de contrasñea
                     TextButton(
                         onClick = onForgotPasswordClick,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -174,9 +170,7 @@ fun LoginScreen(
                     }
 
                     Spacer(modifier = Modifier.height(4.dp))
-
-                    // ¿No tienes cuenta? Regístrate
-                    TextButton(
+                        TextButton(
                         onClick = onRegisterClick,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
@@ -206,11 +200,11 @@ fun LoginScreen(
                 contentDescription = "Perrito",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp),
+                    .height(70.dp),
                 contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(1f.dp))
         }
     }
 }

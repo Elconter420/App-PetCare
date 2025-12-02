@@ -53,14 +53,12 @@ fun TermsConditionsScreen(
             }
         }
 
-        // Contenido scrolleable
         Column(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Título
             Text(
                 text = "Términos y\ncondiciones 📜",
                 fontSize = 22.sp,
@@ -71,7 +69,6 @@ fun TermsConditionsScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Intro
             Text(
                 text = "En PetCare valoramos tu confianza. " +
                         "A continuación, te presentamos nuestras políticas de uso " +
@@ -85,7 +82,6 @@ fun TermsConditionsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Lista de términos
             TermsSection(
                 title = "1. Uso de la aplicación",
                 lines = listOf(
@@ -136,7 +132,6 @@ fun TermsConditionsScreen(
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        // Botón Aceptar fijo abajo
         Button(
             onClick = onAcceptClick,
             modifier = Modifier
