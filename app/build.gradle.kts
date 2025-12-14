@@ -74,6 +74,7 @@ dependencies {
 
     // Hilt (Dependency Injection)
     implementation("com.google.dagger:hilt-android:2.48")
+    implementation(libs.androidx.junit.ktx)
     kapt("com.google.dagger:hilt-compiler:2.48") // kapt funciona sin plugin adicional
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 

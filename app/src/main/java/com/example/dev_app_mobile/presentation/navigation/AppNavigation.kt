@@ -1,5 +1,6 @@
 package com.example.dev_app_mobile.presentation.navigation
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,8 +48,6 @@ fun AppNavigation(
     startDestination: String = Screen.Welcome.route
 ) {
     val navController = rememberNavController()
-
-    // Estado para manejar el rol del usuario (simulado por ahora)
     var userRole by remember { mutableStateOf<UserRole?>(null) }
 
     NavHost(
@@ -56,7 +55,7 @@ fun AppNavigation(
         startDestination = startDestination
     ) {
 
-        // ========== AUTH FLOW ==========
+
         composable(Screen.Welcome.route) {
             WelcomeScreen(
                 onLoginClick = { navController.navigate(Screen.Login.route) },
@@ -73,20 +72,28 @@ fun AppNavigation(
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 },
-                onForgotPasswordClick = { navController.navigate(Screen.ResetPassword.route) },
-                onRegisterClick = { navController.navigate(Screen.UserRegister.route) }
+                onForgotPasswordClick = {
+                    navController.navigate(Screen.ResetPassword.route)
+                },
+                onRegisterClick = {
+                    navController.navigate(Screen.UserRegister.route)
+                }
             )
         }
 
         composable(Screen.UserRegister.route) {
             UserRegisterScreen(
                 onRegisterClick = {
-                    navController.navigate(Screen.SuccessfulMessage.createRoute(SuccessType.REGISTRATION.name)) {
-                        popUpTo(Screen.Welcome.route) { inclusive = false }
-                    }
+                    navController.navigate(
+                        Screen.SuccessfulMessage.createRoute(SuccessType.REGISTRATION.name)
+                    )
                 },
-                onVetRegisterClick = { navController.navigate(Screen.VeterinarianRegister.route) },
-                onTermsClick = { navController.navigate(Screen.TermsConditions.route) }
+                onVetRegisterClick = {
+                    navController.navigate(Screen.VeterinarianRegister.route)
+                },
+                onTermsClick = {
+                    navController.navigate(Screen.TermsConditions.route)
+                }
             )
         }
 
@@ -94,9 +101,14 @@ fun AppNavigation(
             VeterinarianRegisterScreen(
                 onBackClick = { navController.popBackStack() },
                 onRegisterClick = {
-                    navController.navigate(Screen.SuccessfulMessage.createRoute(SuccessType.REGISTRATION.name))
+                    userRole = UserRole.VETERINARIAN
+                    navController.navigate(
+                        Screen.SuccessfulMessage.createRoute(SuccessType.REGISTRATION.name)
+                    )
                 },
-                onTermsClick = { navController.navigate(Screen.TermsConditions.route) }
+                onTermsClick = {
+                    navController.navigate(Screen.TermsConditions.route)
+                }
             )
         }
 
@@ -114,7 +126,7 @@ fun AppNavigation(
             )
         }
 
-        // ========== OWNER FLOW ==========
+
         composable(Screen.OwnerHome.route) {
             OwnerMainScreen(
                 navController = navController,
@@ -124,22 +136,19 @@ fun AppNavigation(
 
         composable(Screen.OwnerMenu.route) {
             OwnerMenuScreen(
-                onNavigate = { destination ->
-                    when (destination) {
-                        "about" -> navController.navigate(Screen.About.route)
-                        "appointment" -> navController.navigate(Screen.ScheduleAppointment.route)
-                        "daycare" -> navController.navigate("daycare")
-                        "transport" -> navController.navigate("transport")
-                        "notifications" -> navController.navigate(Screen.Notifications.route)
-                        "language" -> navController.navigate(Screen.Language.route)
-                        "resetPassword" -> navController.navigate(Screen.ResetPassword.route)
-                        "logout" -> {
+                onNavigate = { action ->
+                    when (action) {
+                        "ABOUT" -> navController.navigate(Screen.About.route)
+                        "APPOINTMENT" -> navController.navigate(Screen.ScheduleAppointment.route)
+                        "NOTIFICATIONS" -> navController.navigate(Screen.Notifications.route)
+                        "PROFILE" -> navController.navigate(Screen.UserProfile.route)
+                        "PLANS" -> navController.navigate(Screen.Plans.route)
+                        "LOGOUT" -> {
                             userRole = null
                             navController.navigate(Screen.Welcome.route) {
                                 popUpTo(0) { inclusive = true }
                             }
                         }
-                        "profile" -> navController.navigate(Screen.UserProfile.route)
                     }
                 }
             )
@@ -148,7 +157,9 @@ fun AppNavigation(
         composable(Screen.UserProfile.route) {
             UserProfileScreen(
                 onBackClick = { navController.popBackStack() },
-                onAddPetClick = { /* Se maneja internamente */ },
+                onAddPetClick = {
+                    navController.navigate(Screen.PetProfile.createRoute("1"))
+                },
                 onLogoutClick = {
                     userRole = null
                     navController.navigate(Screen.Welcome.route) {
@@ -161,14 +172,19 @@ fun AppNavigation(
         composable(
             route = Screen.PetProfile.route,
             arguments = listOf(navArgument(Screen.PetProfile.PET_ID) { type = NavType.StringType })
-        ) { backStackEntry ->
-            val petId = backStackEntry.arguments?.getString(Screen.PetProfile.PET_ID) ?: ""
+        ) {
             PetProfileScreen(
                 onBackClick = { navController.popBackStack() },
-                onOpenHistoryClick = { navController.navigate(Screen.MedicalHistory.route) },
-                onOpenAgendaClick = { /* Navegar a agenda */ },
-                onEditPetClick = { /* Navegar a editar mascota */ },
-                onDeletePetClick = { navController.popBackStack() }
+                onOpenHistoryClick = {
+                    navController.navigate(Screen.MedicalHistory.route)
+                },
+                onOpenAgendaClick = {
+                    navController.navigate(Screen.ScheduleAppointment.route)
+                },
+                onEditPetClick = {},
+                onDeletePetClick = {
+                    navController.popBackStack()
+                }
             )
         }
 
@@ -184,19 +200,11 @@ fun AppNavigation(
         composable(Screen.AppointmentConfirmation.route) {
             AppointmentConfirmationScreen(
                 onConfirm = {
-                    navController.navigate(Screen.SuccessfulMessage.createRoute(SuccessType.APPOINTMENT.name)) {
-                        popUpTo(Screen.OwnerHome.route) { inclusive = false }
-                    }
+                    navController.navigate(
+                        Screen.SuccessfulMessage.createRoute(SuccessType.APPOINTMENT.name)
+                    )
                 },
                 onCancel = { navController.popBackStack() }
-            )
-        }
-
-        composable(Screen.ClinicalHistory.route) {
-            ClinicalHistoryScreen(
-                navController = navController,
-                petName = "Lyra",
-                petImageResId = R.drawable.lyra
             )
         }
 
@@ -212,27 +220,19 @@ fun AppNavigation(
             PlansScreen(
                 onBackClick = { navController.popBackStack() },
                 onSelectFree = {
-                    navController.navigate(Screen.SuccessfulMessage.createRoute(SuccessType.PAYMENT.name))
+                    navController.navigate(
+                        Screen.SuccessfulMessage.createRoute(SuccessType.PAYMENT.name)
+                    )
                 },
                 onSelectPremium = {
-                    navController.navigate(Screen.SuccessfulMessage.createRoute(SuccessType.PAYMENT.name))
+                    navController.navigate(
+                        Screen.SuccessfulMessage.createRoute(SuccessType.PAYMENT.name)
+                    )
                 }
             )
         }
 
-        composable(Screen.About.route) {
-            AboutScreen(
-                onBackClick = { navController.popBackStack() }
-            )
-        }
-
-        composable(Screen.Notifications.route) {
-            NotificationsScreen(
-                navController = navController
-            )
-        }
-
-        // ========== VETERINARIAN FLOW ==========
+        /*veterinario*/
         composable(Screen.VetHome.route) {
             VeterinarianMainScreen(
                 navController = navController,
@@ -241,20 +241,15 @@ fun AppNavigation(
         }
 
         composable(Screen.VetMenu.route) {
-            // Asumiendo que VetMenuScreen tiene onNavigate o necesita navController
-            // Si no tiene, necesitamos crear una versión que acepte parámetros
             VetMenuScreen(
-                onNavigate = { destination ->
-                    when (destination) {
-                        "profile" -> navController.navigate(Screen.VetProfile.route)
-                        "appointments" -> navController.navigate(Screen.VetPendingAppointments.route)
-                        "medical_history" -> navController.navigate(Screen.VetMedicalHistory.route)
-                        "clinical_history" -> navController.navigate(Screen.VetClinicalHistory.route)
-                        "payment_history" -> navController.navigate(Screen.PaymentHistory.route)
-                        "plans" -> navController.navigate(Screen.VetPlans.route)
-                        "help" -> navController.navigate(Screen.Help.route)
-                        "language" -> navController.navigate(Screen.Language.route)
-                        "logout" -> {
+                onNavigate = { action ->
+                    when (action) {
+                        "PROFILE" -> navController.navigate(Screen.VetProfile.route)
+                        "APPOINTMENTS" -> navController.navigate(Screen.VetPendingAppointments.route)
+                        "PLANS" -> navController.navigate(Screen.VetPlans.route)
+                        "HELP" -> navController.navigate(Screen.Help.route)
+                        "LANGUAGE" -> navController.navigate(Screen.Language.route)
+                        "LOGOUT" -> {
                             userRole = null
                             navController.navigate(Screen.Welcome.route) {
                                 popUpTo(0) { inclusive = true }
@@ -265,7 +260,6 @@ fun AppNavigation(
             )
         }
 
-        // CORRECCIÓN: VeterinarianProfileScreen necesita navController
         composable(Screen.VetProfile.route) {
             VeterinarianProfileScreen(
                 navController = navController,
@@ -275,138 +269,63 @@ fun AppNavigation(
             )
         }
 
-        // CORRECCIÓN: VetPendingAppointmentsScreen necesita estos parámetros
         composable(Screen.VetPendingAppointments.route) {
             VetPendingAppointmentsScreen(
                 vetName = "Dra. Melissa",
-                patientName = "Paciente", // Esto debería venir de datos reales
-                date = "25/11/2025", // Esto debería venir de datos reales
-                time = "3:00 p.m.", // Esto debería venir de datos reales
-                reason = "Consulta general", // Esto debería venir de datos reales
+                patientName = "Paciente",
+                date = "25/11/2025",
+                time = "3:00 p.m.",
+                reason = "Consulta general",
                 onBackClick = { navController.popBackStack() },
-                onAcceptClick = {
-                    // Lógica para aceptar cita
-                    // Después de aceptar, podrías navegar a otra pantalla o actualizar
-                },
-                onCancelClick = {
-                    // Lógica para cancelar cita
-                    navController.popBackStack()
-                }
+                onAcceptClick = {},
+                onCancelClick = { navController.popBackStack() }
             )
         }
 
-        // CORRECCIÓN: VeterinarianMedicalHistoryScreen necesita navController
-        composable(Screen.VetMedicalHistory.route) {
-            VeterinarianMedicalHistoryScreen(
-                navController = navController,
-                petName = "Mateo",
-                petImageResId = R.drawable.mateo
-            )
-        }
-
-        // CORRECCIÓN: VeterinarianClinicalHistoryScreen necesita navController
-        composable(Screen.VetClinicalHistory.route) {
-            VeterinarianClinicalHistoryScreen(
-                navController = navController,
-                petName = "Mateo",
-                petImageResId = R.drawable.mateo
-            )
-        }
-
-        // CORRECCIÓN: PaymentHistoryScreen necesita navController
-        composable(Screen.PaymentHistory.route) {
-            PaymentHistoryScreen(
-                navController = navController
-            )
-        }
-
-        // CORRECCIÓN: VetPlansScreen tiene estos parámetros
         composable(Screen.VetPlans.route) {
             VetPlansScreen(
                 onBack = { navController.popBackStack() },
                 onSelectFree = {
-                    // Lógica para plan free
-                    navController.navigate(Screen.SuccessfulMessage.createRoute(SuccessType.PAYMENT.name))
+                    navController.navigate(
+                        Screen.SuccessfulMessage.createRoute(SuccessType.PAYMENT.name)
+                    )
                 },
                 onSelectPremium = {
-                    // Lógica para plan premium
-                    navController.navigate(Screen.SuccessfulMessage.createRoute(SuccessType.PAYMENT.name))
+                    navController.navigate(
+                        Screen.SuccessfulMessage.createRoute(SuccessType.PAYMENT.name)
+                    )
                 }
             )
         }
 
-        // CORRECCIÓN: HelpScreen - asumiendo que necesita navController o onBackClick
         composable(Screen.Help.route) {
-            HelpScreen(
-                onBackClick = { navController.popBackStack() }
-                // O si HelpScreen necesita navController:
-                // navController = navController
-            )
+            HelpScreen(onBackClick = { navController.popBackStack() })
         }
 
-        // CORRECCIÓN: LanguageScreen necesita ambos parámetros
         composable(Screen.Language.route) {
             LanguageScreen(
                 navController = navController,
-                onAcceptClick = {
-                    // Lógica al aceptar idioma
-                    navController.popBackStack()
-                }
+                onAcceptClick = { navController.popBackStack() }
             )
         }
 
-        // ========== COMMON SCREENS ==========
+
         composable(
             route = Screen.SuccessfulMessage.route,
-            arguments = listOf(navArgument(Screen.SuccessfulMessage.MESSAGE_TYPE) { type = NavType.StringType })
-        ) { backStackEntry ->
-            val messageType = backStackEntry.arguments?.getString(Screen.SuccessfulMessage.MESSAGE_TYPE)
-
-            // Crear un wrapper que convierta los parámetros
-            Column {
-                SuccessfulMessage(
-                    title = when (messageType) {
-                        "REGISTRATION" -> "¡Registro Exitoso!"
-                        "APPOINTMENT" -> "¡Cita Agendada!"
-                        "PET_REGISTRATION" -> "¡Mascota Registrada!"
-                        "PAYMENT" -> "¡Pago Procesado!"
-                        else -> "¿Está seguro de\neliminar a su\nmascota?"
-                    },
-                    confirmText = when (messageType) {
-                        "REGISTRATION" -> "Continuar"
-                        "APPOINTMENT" -> "Ver mis citas"
-                        "PET_REGISTRATION" -> "Ver mis mascotas"
-                        "PAYMENT" -> "Ver mis suscripciones"
-                        else -> "Sí, estoy seguro/a"
-                    },
-                    cancelText = when (messageType) {
-                        "REGISTRATION", "APPOINTMENT", "PET_REGISTRATION", "PAYMENT" -> "Volver"
-                        else -> "No, no estoy seguro/a"
-                    },
-                    onConfirm = {
-                        when (userRole) {
-                            UserRole.OWNER -> navController.navigate(Screen.OwnerHome.route) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                            UserRole.VETERINARIAN -> navController.navigate(Screen.VetHome.route) {
-                                popUpTo(0) { inclusive = true }
-                            }
-                            else -> navController.navigate(Screen.Welcome.route)
-                        }
-                    },
-                    onCancel = { navController.popBackStack() }
-                )
-            }
+            arguments = listOf(navArgument(Screen.SuccessfulMessage.MESSAGE_TYPE) {
+                type = NavType.StringType
+            })
+        ) {
+            SuccessfulMessage(
+                onConfirm = {
+                    when (userRole) {
+                        UserRole.OWNER -> navController.navigate(Screen.OwnerHome.route)
+                        UserRole.VETERINARIAN -> navController.navigate(Screen.VetHome.route)
+                        else -> navController.navigate(Screen.Welcome.route)
+                    }
+                },
+                onCancel = { navController.popBackStack() }
+            )
         }
     }
-}
-
-@Composable
-fun Column(content: @Composable () -> Unit) {
-    TODO("Not yet implemented")
-}
-
-// Enum para roles de usuario
-enum class UserRole {
-    OWNER, VETERINARIAN
 }
